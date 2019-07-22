@@ -15,15 +15,27 @@
                 text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
                 color: white;
             }
+
+            table{
+            	margin-right: auto;
+            	margin-left: auto;
+            }
             #launchTitle{
                 text-align: center;
             }
+            #launchDate{
+            	font-size: 1.5em;
+            	text-align: center;
+            }
             #countdown{
                 text-align: center;
-                padding-top: 60px;
+                padding-top: 40px;
                 
             }
 
+            #dayValue{
+            	padding-right: 50px;
+            }
             .countdown-value{
                 display:inline-block;
                 font-size: 3.5em;
@@ -34,6 +46,14 @@
                 display:inline-block;
                 font-size: 1em;
                 padding-right: 12px;
+            }
+            .countdown-label.day{
+            	padding-right: 50px;
+            }
+            .countdown-colon{
+            	font-size: 5em;
+            	padding-left: 10px;
+            	line-height: 0px;
             }
 
             .background{
@@ -48,6 +68,8 @@
                 width: 100%;
                 height: 100%;
             }
+
+
         </style>
         <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -60,7 +82,9 @@
             $('document').ready(function(){
                 $.get('https://launchlibrary.net/1.4/launch/next/1', function( data ){
                     cycleBackgroundImage();
-                    $('#launchTitle').text(data.launches[0].name);
+                    //$('#launchTitle').text(data.launches[0].name);
+                    showLaunchTitle(data.launches[0].name);
+                    showLaunchDate(data.launches[0].windowstart);
                     showCountdown(data.launches[0].windowstart);
                 });
             });
@@ -74,6 +98,12 @@
 
                 //change background every minute to preserve LCD screen
                 setTimeout(cycleBackgroundImage, 60000);
+            }
+            function showLaunchTitle(titleString){
+            	$('#launchTitle').text(titleString);
+            }
+            function showLaunchDate(dateString){
+            	$('#launchDate').text(new Date(dateString).toLocaleString());
             }
             function showCountdown(dateString){
                 // Set the date we're counting down tos
@@ -116,16 +146,24 @@
         <div class="background"></div>
         <div class="content-wrapper">
             <h1 id="launchTitle"></h1>
+            <div id="launchDate"></div>
             <div id="countdown">
-                <div id="dayValue" class="countdown-value"></div>
-                <div class="countdown-label">days</div>
-                <div id="hoursValue" class="countdown-value"></div>
-                <div class="countdown-label">hours</div>
-                <div id="minutesValue" class="countdown-value"></div>
-                <div class="countdown-label">mins</div>
-                <div id="secondsValue" class="countdown-value"></div>
-                <div class="countdown-label">secs</div>
+            	<table>
+            		<tr>
+            			<td><div id="dayValue" class="countdown-value"></div></td>
+            			<td><div id="hoursValue" class="countdown-value"></div><span class="countdown-colon">:</span></td>
+            			<td><div id="minutesValue" class="countdown-value"></div><span class="countdown-colon">:</span></td>
+            			<td><div id="secondsValue" class="countdown-value"></div></td>
+            		</tr>
+            		<tr>
+            			<td><div class="countdown-label day">days</div></td>
+            			<td><div class="countdown-label">hours</div></td>
+            			<td><div class="countdown-label">mins</div></td>
+            			<td><div class="countdown-label">secs</div></td>
+            		</tr>
+            	</table>
             </div>
+            
         </div>
         
     </body>
