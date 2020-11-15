@@ -119,27 +119,25 @@
 
                     // Find the distance between now and the count down date
                     var distance = countDownDate - now;
+                    var timeSign = 1;
+                    var timeSignText = '-';
+                    if(distance < 0){
+                        timeSign = -1;
+                        timeSignText = '+';
+                    }
 
                     // Time calculations for days, hours, minutes and seconds
-                    var days = Math.floor(distance / (1000 * 60 * 60 * 24)) + '';
-                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) + '';
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)) + '';
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000) + '';
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24)) * timeSign + '';
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) * timeSign + '';
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)) * timeSign + '';
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000) * timeSign + '';
 
-                    // Display the result in the element with id="demo"
-                    // $('#countdown').text(days + " days " + hours + " hours "
-                    // + minutes + " mins " + seconds + " secs ");
-
+                    $('#timeSign').text(timeSignText);
                     $('#dayValue').text(days.padStart(2, '0'));
                     $('#hoursValue').text(hours.padStart(2, '0'));
                     $('#minutesValue').text(minutes.padStart(2, '0'));
                     $('#secondsValue').text(seconds.padStart(2, '0'));
 
-                    // If the count down is finished, write some text
-                    if (distance < 0) {
-                        clearInterval(x);
-                        document.getElementById("demo").innerHTML = "EXPIRED";
-                    }
                 }, 1000);
             }
         </script>
@@ -152,12 +150,14 @@
             <div id="countdown">
             	<table>
             		<tr>
+                        <td><div id="timeSign" class="countdown-value"></div></td>
             			<td><div id="dayValue" class="countdown-value"></div></td>
             			<td><div id="hoursValue" class="countdown-value"></div><span class="countdown-colon">:</span></td>
             			<td><div id="minutesValue" class="countdown-value"></div><span class="countdown-colon">:</span></td>
             			<td><div id="secondsValue" class="countdown-value"></div></td>
             		</tr>
             		<tr>
+                        <td>&nbsp;</td>
             			<td><div class="countdown-label day">days</div></td>
             			<td><div class="countdown-label">hours</div></td>
             			<td><div class="countdown-label">mins</div></td>
